@@ -1,0 +1,129 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mongodb
+  namespace: ccd-hacks
+spec:
+    clusterIP: None
+    ports:
+    -   port: 27017
+    selector:
+        app: mongodb
+
+---
+
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#     name: mongodb-node
+#     namespace: ccd-hacks
+# spec:
+#   serviceName: mongodb
+#   selector:
+#     matchLabels:
+#         app: mongodb
+#   replicas: 1
+#   template:
+#     metadata:
+#         labels:
+#             app: mongodb
+#     spec:
+#         containers:
+#         -   name: mongodb-node
+#             image: mongo:3.6
+#             volumeMounts:
+#             -   mountPath: "/data/db"
+#                 name: mongo-data
+#             ports:
+#             -   containerPort: 27017
+       
+        
+#   volumeClaimTemplates:
+#   - metadata:
+#         name: mongo-data
+#     spec:
+#       accessModes: [ "ReadWriteOnce" ]
+#       resources:
+#         requests:
+#           storage: 1Gi
+# ---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frndz-server
+    namespace: ccd-hacks
+    labels:
+      app: frndz-server
+
+spec:
+  selector:
+    matchLabels:
+        app: frndz-server
+  replicas: 1
+  template:
+
+    metadata:
+        labels:
+            app: frndz-server
+    spec:
+
+        containers:
+        -   name: frndz-server
+            image: divinejicks/frndz:1.0.0
+
+            env:
+            -   name: mongo__connectionString
+                value: "mongodb://mongodb?connect=direct"
+
+---  
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: frndz-server
+    namespace: ccd-hacks
+spec:
+    ports:
+    -   name: http 
+        port: 80
+    selector:
+        app: cb-server
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frndz-ingress 
+  namespace: ccd-hacks
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-nginx"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+spec:
+  tls:
+    - hosts:
+      - friendzone.staging.newearthart.tech
+      secretName: frndz-tls
+
+  rules:
+  - host: friendzone.staging.newearthart.tech
+    http:
+      paths:
+      # - pathType: Prefix
+      #   path: "/"
+      #   backend:
+      #     service:
+      #       name: frndz-frontend
+      #       port: 
+      #         number: 80
+      
+      - pathType: Prefix
+        path: "/api"
+        backend:
+          service:
+            name: frndz-server
+            port: 
+              number: 80
+
