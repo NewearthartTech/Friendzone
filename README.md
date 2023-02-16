@@ -3,7 +3,7 @@ The friend zone app
 
 # Backend
 # To start docker
-move into `src` then `docker`
+move into `backend` then `docker`
 
 ensure your docker desktop is running.
 run `docker compose build` 
