@@ -101,6 +101,10 @@ spec:
         -   name: frndz-frontend
             image: divinejicks/frndz-frontend:1.0.2
 
+            env:
+                -   name: VITE_BACKEND_ENDPOINT
+                    value: "https://friendzone.staging.newearthart.tech/api"
+
 ---
 
 
