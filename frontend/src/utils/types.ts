@@ -3,18 +3,18 @@ export interface RewardAttribute {
 	countries: Array<string>;
 	minAge?: number | string;
 	maxAge?: number | string;
-	numberOfUsersAbleToClaim?: number;
+	numberOfUsersAbleToClaim?: number | string;
 	rewardLink?: string;
 	walletAddress?: string;
-	amountPaidPerClick?: number;
-	maxPaidClicksPerUser?: number;
+	amountPaidPerClick?: number | string;
+	maxPaidClicksPerUser?: number | string;
 	numberOfUsers?: number;
 }
 export interface Referal {
 	id?: string;
 	personalLink?: string;
 	walletAddress?: string;
-	rewardLink?: string;
+	rewardId?: string;
 	amountToClaim?: number;
 	hasClaimed?: boolean;
 }

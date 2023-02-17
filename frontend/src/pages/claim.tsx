@@ -2,48 +2,61 @@ import { Alert, AlertTitle, Backdrop, Link, Box, Card, CardContent, Chip, Circul
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { ReferalResponse } from '../utils/types';
-import WalletEnsure from '../components/walletEnsure';
 import { countries } from '../utils/countries';
 import { copyText } from '../utils/utils';
 import toast from 'react-hot-toast';
-import { ContentCopy } from '@mui/icons-material';
+import { ContentCopy, Replay } from '@mui/icons-material';
 import { walletAtom } from '../store/walletStore';
 import { useAtom } from 'jotai';
+import WalletEnsure from '../components/walletEnsure';
+import { claimReward, createReferral } from '../utils/backend';
+import { LoadingButton } from '@mui/lab';
 const Claim = () => {
     const { id } = useParams();
     const [shareReferral, setShareReferral] = useState<ReferalResponse>();
     const [isLoading, setIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const [claimAmount, setClaimAmount] = useState<number>();
+    const [claimFail, setClaimFail] = useState<boolean>();
+    const [claimLoading, setClaimLoading] = useState<boolean>();
     const [wallet] = useAtom(walletAtom)
-    useEffect(() => {
-        (async () => {
-            setIsLoading(true);
+
+    const loadContent = async () => {
+        setIsLoading(true);
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        if (wallet.address)
             try {
-                await setTimeout(() => {
-                    setShareReferral({
-                        rewardAttribute: {
-                            walletAddress: "3v1JUB1R1JLFtcKvHqD9QFqe2NXeBF53tp69FLPHYipTjNgLrV",
-                            numberOfUsersAbleToClaim: 12,
-                            countries: ["DE", "GB"],
-
-                            minAge: 17,
-                            maxAge: 39,
-                            rewardLink: "https://www.google.com/",
-                        },
-                        referal: {
-                            personalLink: "http://localhost:5173/refClaim/23224",
-                            walletAddress: wallet.address
-                        }
-                    });
-                    setIsLoading(false);
-                }, 3000)
-
+                const refResponse = await createReferral({ rewardId: id, walletAddress: wallet.address })
+                setShareReferral(refResponse);
+                setIsLoading(false);
             }
             catch {
                 setHasError(true)
             }
+    }
+    useEffect(() => {
+        (async () => {
+            await loadContent();
         })()
-    }, []);
+    }, [wallet.address]);
+
+    const claimRewards = async () => {
+        if (wallet.address) {
+            setClaimLoading(true);
+            try {
+                const newR = await claimReward({
+                    walletAddress: wallet.address,
+                    personalLink: shareReferral?.referal.personalLink ?? ""
+                });
+                setClaimAmount(shareReferral?.referal.amountToClaim);
+                setShareReferral(newR);
+            }
+            catch {
+                setClaimFail(true);
+            }
+            setClaimLoading(false)
+        }
+    }
     if (hasError)
         return (
             <WalletEnsure>
@@ -62,13 +75,13 @@ const Claim = () => {
         )
     // Set up your claim page Claiming & Sharing further
     return (
-        <WalletEnsure>
+        <WalletEnsure rewardAttribute={shareReferral?.rewardAttribute}>
             <>
                 <Typography textAlign="center" variant="h4" marginTop={4} gutterBottom>
                     Shareable reward details
                 </Typography>
                 <Card variant="outlined" sx={{ maxWidth: "35rem", mx: "auto" }}>
-                    <CardContent>
+                    <CardContent sx={{ position: "relative" }}>
                         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                             Created by
                         </Typography>
@@ -135,23 +148,26 @@ const Claim = () => {
                             Reward avalaible
                         </Typography>
                         <Typography variant="h5">
-                            {((shareReferral?.rewardAttribute?.amountPaidPerClick ?? 1) * 12).toFixed(2)} CCD
+                            {shareReferral?.referal.amountToClaim} CCD
                         </Typography>
+                        <IconButton onClick={() => loadContent()} color="info" sx={{ position: "absolute", right: "0.1em", bottom: "0.3em" }}>
+                            <Replay />
+                        </IconButton>
                     </CardContent>
                 </Card>
 
                 <Box sx={{ textAlign: "center", mt: 3 }}>
-                    <Button variant="contained">
+                    <LoadingButton loading={claimLoading} variant="contained" disabled={!shareReferral?.referal.amountToClaim} onClick={() => claimRewards()}>
                         Claim Reward
-                    </Button>
+                    </LoadingButton>
                 </Box>
 
-                <Alert sx={{ mt: 4, maxWidth: "30rem", mx: "auto" }} variant="outlined" severity="success" >
-                    Reward claimed successfully, received {((shareReferral?.rewardAttribute?.amountPaidPerClick ?? 1) * 12).toFixed(2)}  CCD
-                </Alert>
-                <Alert sx={{ mt: 4, maxWidth: "30rem", mx: "auto" }} variant="outlined" severity="error" >
+                {claimAmount && <Alert sx={{ mt: 4, maxWidth: "30rem", mx: "auto" }} variant="outlined" severity="success" >
+                    Reward claimed successfully, received {claimAmount} CCD
+                </Alert>}
+                {claimFail && (<Alert sx={{ mt: 4, maxWidth: "30rem", mx: "auto" }} variant="outlined" severity="error" >
                     CCD Reward already claimed
-                </Alert>
+                </Alert>)}
             </>
         </WalletEnsure>
     )

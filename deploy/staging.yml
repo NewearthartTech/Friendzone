@@ -99,11 +99,7 @@ spec:
     spec:
         containers:
         -   name: frndz-frontend
-            image: gabytrifan/friendzone-ui:latest
-
-            env:
-            -   name: BACKEND_ENDPOINT
-                value: "friendzone.staging.newearthart.tech"
+            image: divinejicks/frndz-frontend:1.0.0
 
 ---
 
@@ -155,13 +151,13 @@ spec:
   - host: friendzone.staging.newearthart.tech
     http:
       paths:
-       - pathType: Prefix
-         path: "/"
-         backend:
-           service:
-             name: frndz-frontend
-             port: 
-               number: 80
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frndz-frontend
+            port: 
+              number: 80
       
       - pathType: Prefix
         path: "/api"
