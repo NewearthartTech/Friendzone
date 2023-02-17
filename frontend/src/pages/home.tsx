@@ -14,7 +14,7 @@ const Home = () => {
                         Welcome to FrndZone
                     </Typography>
                     <Typography fontSize={14} m={4}>
-                        FrndZ is an app which gives you rewards for sharing links among friends. Whenever you share a link with a friend, he/ she opens it and you get a reward in CCD
+                        FrndZ is an app which gives you rewards for sharing links among friends. Whenever you share a link with a friend, they opens it and you get a reward in CCD
                     </Typography>
                 </Box>
                 <img src="/startrewards.png" style={{ maxWidth: "40rem", margin: "auto 0" }} />
