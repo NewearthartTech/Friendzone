@@ -3,6 +3,8 @@ import { RewardAttribute } from "./types";
 import { WalletApi } from "@concordium/browser-wallet-api-helpers";
 import { deleteChallenge, getAuth, getChallenge } from "./backend";
 import { Wallet } from "../store/walletStore";
+import { AccountTransactionType, CcdAmount } from "@concordium/web-sdk";
+import { CONTRACT_INDEX, CONTRACT_NAME, RAW_SCHEMA } from "./constants";
 
 export const onVerifyID = async (
 	rewardAttribute: RewardAttribute,
