@@ -76,7 +76,37 @@ spec:
             -   name: mongo__connectionString
                 value: "mongodb://mongodb?connect=direct"
 
----  
+---          
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frndz-frontend
+    namespace: ccd-hacks
+    labels:
+      app: frndz-frontend
+
+spec:
+  selector:
+    matchLabels:
+        app: frndz-frontend
+  replicas: 1
+  template:
+
+    metadata:
+        labels:
+            app: frndz-frontend
+    spec:
+        containers:
+        -   name: frndz-frontend
+            image: gabytrifan/friendzone-ui:latest
+
+            env:
+            -   name: BACKEND_ENDPOINT
+                value: "friendzone.staging.newearthart.tech"
+
+---
+
 
 apiVersion: v1
 kind: Service
@@ -89,6 +119,20 @@ spec:
         port: 80
     selector:
         app: cb-server
+
+---  
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: frndz-frontend
+    namespace: ccd-hacks
+spec:
+    ports:
+    -   name: http
+        port: 80
+    selector:
+        app: frndz-frontend
 
 ---
 
@@ -111,13 +155,13 @@ spec:
   - host: friendzone.staging.newearthart.tech
     http:
       paths:
-      # - pathType: Prefix
-      #   path: "/"
-      #   backend:
-      #     service:
-      #       name: frndz-frontend
-      #       port: 
-      #         number: 80
+       - pathType: Prefix
+         path: "/"
+         backend:
+           service:
+             name: frndz-frontend
+             port: 
+               number: 80
       
       - pathType: Prefix
         path: "/api"
