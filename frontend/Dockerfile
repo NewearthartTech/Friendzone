@@ -10,9 +10,8 @@ RUN apk add --update python3 make g++ && rm -rf /var/cache/apk/*
 RUN yarn
 COPY . ./
 
-ARG VITE_BACKEND_ENDPOINT
 
-RUN VITE_BACKEND_ENDPOINT=${VITE_BACKEND_ENDPOINT} \
+RUN VITE_BACKEND_ENDPOINT="/api" \
     yarn build
 
 FROM nginx:alpine
