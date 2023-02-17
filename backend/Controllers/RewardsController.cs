@@ -33,6 +33,13 @@ namespace src.Controllers
         }
 
 
+        [HttpGet("health")]
+        public async Task<IActionResult> GetHealth()
+        {
+            var result = "Success";
+            return Ok(result);
+        }
+
         [HttpGet("{rewardid}")]
         public async Task<RewardAttribute> GetRewardAttributes(string rewardid)
         {
