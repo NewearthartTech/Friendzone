@@ -11,6 +11,8 @@ import { useAtom } from 'jotai';
 import WalletEnsure from '../components/walletEnsure';
 import { claimReward, createReferral } from '../utils/backend';
 import { LoadingButton } from '@mui/lab';
+import { AccountTransactionType, CcdAmount } from '@concordium/web-sdk';
+import { CONTRACT_INDEX, CONTRACT_NAME, RAW_SCHEMA } from '../utils/constants';
 const Claim = () => {
     const { id } = useParams();
     const [shareReferral, setShareReferral] = useState<ReferalResponse>();
@@ -41,9 +43,29 @@ const Claim = () => {
     }, [wallet.address]);
 
     const claimRewards = async () => {
-        if (wallet.address) {
+        if (wallet.address && wallet.provider && shareReferral?.referal.amountToClaim) {
             setClaimLoading(true);
             try {
+                await wallet.provider
+                    .sendTransaction(
+                        wallet.address,
+                        AccountTransactionType.Update,
+                        {
+                            amount: new CcdAmount(0n),
+                            address: {
+                                index: CONTRACT_INDEX,
+                                subindex: BigInt(0)
+                            },
+                            receiveName: `${CONTRACT_NAME}.claimreward`,
+                            maxContractExecutionEnergy: 3000n
+                        },
+                        {
+                            amount_to_claim: BigInt(1000000 * shareReferral?.referal.amountToClaim ?? 0).toString()
+                        },
+                        RAW_SCHEMA
+                    ).catch(() => {
+                        throw Error("Can't claim reward");
+                    });
                 const newR = await claimReward({
                     walletAddress: wallet.address,
                     personalLink: shareReferral?.referal.personalLink ?? ""
@@ -92,6 +114,7 @@ const Claim = () => {
                             Avalaible in
                         </Typography>
                         {shareReferral?.rewardAttribute?.countries?.map((country, i) => (<Chip
+                            key={i}
                             sx={{ margin: 1 }}
                             size="small"
                             variant="outlined"

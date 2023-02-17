@@ -10,7 +10,10 @@ import { walletAtom } from '../store/walletStore';
 import { useAtom } from 'jotai';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { createRewardAttributes } from '../utils/backend';
+import { AccountTransactionType, ModuleReference, CcdAmount, deserializeReceiveReturnValue, toBuffer, SchemaVersion } from '@concordium/web-sdk';
 import dayjs from 'dayjs';
+import { CONTRACT_INDEX, CONTRACT_NAME, RAW_SCHEMA } from '../utils/constants';
+
 const Upload = () => {
     const [wallet] = useAtom(walletAtom)
     const [shareReward, setShareReward] = useState<RewardAttribute>(
@@ -30,8 +33,28 @@ const Upload = () => {
     const generateLink = async () => {
         setFailed(false)
         setLoading(true)
-        if (wallet.address)
+        if (wallet.address && wallet.provider !== undefined)
+
             try {
+                const amountToAsk =
+                    Number(shareReward.amountPaidPerClick) *
+                    Number(shareReward.maxPaidClicksPerUser) *
+                    Number(shareReward.numberOfUsersAbleToClaim);
+                await wallet.provider.sendTransaction(
+                    wallet.address,
+                    AccountTransactionType.Update,
+                    {
+                        amount: new CcdAmount(BigInt(1000000 * amountToAsk)),
+                        address: {
+                            index: CONTRACT_INDEX,
+                            subindex: BigInt(0)
+                        },
+                        receiveName: `${CONTRACT_NAME}.load`,
+                        maxContractExecutionEnergy: 3000n
+                    },
+                    {},
+                    RAW_SCHEMA
+                );
                 const generatedRewardAttribute = await createRewardAttributes({
                     ...shareReward,
                     walletAddress: wallet.address,
