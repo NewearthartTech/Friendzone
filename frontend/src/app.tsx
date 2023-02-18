@@ -13,10 +13,14 @@ import Home from "./pages/home";
 import Upload from "./pages/upload";
 import Claim from "./pages/claim";
 import Referral from "./pages/referral";
+import Profile from "./pages/profile";
 
 const darkTheme = createTheme({
     palette: {
         mode: "dark",
+        secondary: {
+            main: '#69f0ae'
+        },
     },
 });
 
@@ -28,6 +32,7 @@ function App() {
                 <Outlet />
             </>}>
                 <Route path="/" element={<Home />} />
+                <Route path="profile/:address" element={<Profile />} />
                 <Route path="upload" element={<Upload />} />
                 <Route path="claim/:id" element={<Claim />} />
                 <Route path="ref/:id" element={<Referral />} />

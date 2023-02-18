@@ -25,7 +25,7 @@ const Navbar = () => {
                         </Link>
                     </Typography>
 
-                    {walletPresent && (<Button onClick={() => navigate("/upload")} sx={{ marginX: "1em", padding: "10px" }} variant="outlined">
+                    {walletPresent && (<Button onClick={() => navigate("/upload")} sx={{ marginX: "1em" }} variant="outlined">
                         <Add /> {matches && <span>Create shareable link</span>}
                     </Button>)}
                     <Wallet />
