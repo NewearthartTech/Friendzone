@@ -64,6 +64,7 @@ namespace src.Controllers
 
                 if (existingReward != null)
                 {
+                    rewardAttribute.NumberOfUsers = existingReward.NumberOfUsers;
                     var replacedReward = await rewardAttributeCollection.ReplaceOneAsync(re => re.Id == rewardAttribute.Id, rewardAttribute);
                     return await GetRewardAttributes(rewardAttribute.Id);
                 }
