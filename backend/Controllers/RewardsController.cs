@@ -59,6 +59,16 @@ namespace src.Controllers
         public async Task<RewardAttribute> CreateRewardAttributes([FromBody]RewardAttribute rewardAttribute)
         {
             var rewardAttributeCollection = _db.getCollection<RewardAttribute>();
+            if (!String.IsNullOrWhiteSpace(rewardAttribute.Id)) {
+                var existingReward = await rewardAttributeCollection.Find(r => r.Id != rewardAttribute.Id).FirstOrDefaultAsync();
+
+                if (existingReward != null)
+                {
+                    var replacedReward = await rewardAttributeCollection.ReplaceOneAsync(re => re.Id == rewardAttribute.Id, rewardAttribute);
+                    return await GetRewardAttributes(rewardAttribute.Id);
+                }
+            }
+
             await rewardAttributeCollection.InsertOneAsync(rewardAttribute);
             return await GetRewardAttributes(rewardAttribute.Id);
         }

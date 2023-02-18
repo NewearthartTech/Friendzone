@@ -118,7 +118,7 @@ spec:
     -   name: http 
         port: 80
     selector:
-        app: cb-server
+        app: frndz-server
 
 ---  
 
