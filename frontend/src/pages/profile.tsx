@@ -70,7 +70,7 @@ const Profile = () => {
                             <CardContent>
                                 <Box>
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Total Cost
+                                        Reward Pool
                                     </Typography>
                                     <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
                                         {(Number(reward.amountPaidPerClick) ?? 0) *
