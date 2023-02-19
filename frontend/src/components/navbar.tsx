@@ -18,12 +18,10 @@ const Navbar = () => {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color="primary">
                 <Toolbar>
+                    <Link href="/" variant="inherit" underline="none" sx={{ flexGrow: 1, fontStyle: "italic" }}>
+                        <img src="/logo.png" alt="FrndZone" style={{ height: "2rem" }} />
+                    </Link>
 
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontStyle: "italic" }}>
-                        <Link href="/" variant="inherit" underline="none">
-                            FrndZone
-                        </Link>
-                    </Typography>
 
                     {walletPresent && (<Button onClick={() => navigate("/upload")} sx={{ marginX: "1em" }} variant="outlined">
                         <Add /> {matches && <span>Create shareable link</span>}

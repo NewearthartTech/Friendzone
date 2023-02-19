@@ -133,8 +133,8 @@ const Upload = () => {
                         setShareReward({ ...shareReward, rewardLink: e.target.value });
                     }
                     } placeholder="https://" fullWidth />
-                    <Typography variant="h5" my={2} textAlign="left">No. of users able to claim CCD</Typography>
-                    <TextField label="Max claimable links" value={shareReward.numberOfUsersAbleToClaim} onChange={e => {
+                    <Typography variant="h5" my={2} textAlign="left">No. of influencers able to claim CCD</Typography>
+                    <TextField label="Max no. influencers" value={shareReward.numberOfUsersAbleToClaim} onChange={e => {
                         const cleanNum = (e.target.value || '').replace(/[^0-9\.]+/g,
                             ''
                         );
@@ -142,13 +142,13 @@ const Upload = () => {
                     }} fullWidth />
 
                     <Typography variant="h5" my={2} textAlign="left">CCD paid for each click</Typography>
-                    <TextField label="CCD per click" value={shareReward.amountPaidPerClick} onChange={e => {
+                    <TextField label="CCD per click" placeholder="0.00 CCD" value={shareReward.amountPaidPerClick} onChange={e => {
                         const cleanNum = (e.target.value || '').replace(/[^0-9\.]+/g,
                             ''
                         );
                         setShareReward({ ...shareReward, amountPaidPerClick: cleanNum })
                     }} fullWidth />
-                    <Typography variant="h5" my={2} textAlign="left">Max claimable link clicks per user</Typography>
+                    <Typography variant="h5" my={2} textAlign="left">Max claimable link clicks per influencer</Typography>
                     <TextField label="Max claimable links" value={shareReward.maxPaidClicksPerUser} onChange={e => {
                         const cleanNum = (e.target.value || '').replace(/[^0-9\.]+/g,
                             ''
