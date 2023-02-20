@@ -83,7 +83,7 @@ const EditRewardInstance = ({ originalReward }: { originalReward: RewardAttribut
                                 maxContractExecutionEnergy: 3000n
                             },
                             {
-                                amount_to_claim: BigInt(1000000 * prevAmountToAsk - amountToAsk).toString()
+                                amount_to_claim: BigInt(1000000 * (prevAmountToAsk - amountToAsk)).toString()
                             },
                             RAW_SCHEMA
                         )
