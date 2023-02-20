@@ -22,6 +22,17 @@ const darkTheme = createTheme({
             main: '#69f0ae'
         },
     },
+    components: {
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    "&.Mui-selected": {
+                        backgroundColor: '#255991',
+                    }
+                }
+            }
+        }
+    }
 });
 
 function App() {
