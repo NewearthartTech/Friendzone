@@ -130,7 +130,7 @@ const EditRewardInstance = ({ originalReward }: { originalReward: RewardAttribut
                             <CloseIcon />
                         </IconButton>
                     ) : null}
-                    <Typography mx="auto" mb={8} variant="h4" gutterBottom>Create shareable reward</Typography>
+                    <Typography mx="auto" mb={8} variant="h4" gutterBottom>Edit shareable reward</Typography>
                     <Box sx={{ maxWidth: "30rem" }} mx="auto">
                         <Typography variant="h5" my={2} textAlign="left">Countries avalaible to</Typography>
                         <FormControl fullWidth >
