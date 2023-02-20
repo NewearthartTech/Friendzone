@@ -26,8 +26,8 @@ const EditRewardInstance = ({ originalReward }: { originalReward: RewardAttribut
     const [failed, setFailed] = useState<boolean>();
     const [shareReward, setShareReward] = useState<RewardAttribute>({
         ...originalReward,
-        minAge: dayjs().year() - Number(originalReward.minAge!.toString().substring(0, 3)),
-        maxAge: dayjs().year() - Number(originalReward.maxAge!.toString().substring(0, 3)),
+        minAge: dayjs().year() - Number(originalReward.minAge!.toString().substring(0, 4)),
+        maxAge: dayjs().year() - Number(originalReward.maxAge!.toString().substring(0, 4)),
     });
     const [updateSuccess, setUpdateSuccess] = useState<boolean>();
     const [open, setOpen] = React.useState(false);
