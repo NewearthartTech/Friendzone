@@ -152,6 +152,11 @@ namespace src.Controllers
                 throw new Exception("No reward found");
             }
 
+            if(rewardAttribute.WalletAddress == referal.WalletAddress)
+            {
+                throw new Exception("Owner of reward can not create a personal link");
+            }
+
             var referalCollection = _db.getCollection<Referal>();
             var existingReferal = await referalCollection.Find(rr => rr.RewardId == referal.RewardId && rr.WalletAddress == referal.WalletAddress).FirstOrDefaultAsync();
             if (existingReferal != null)
