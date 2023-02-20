@@ -51,42 +51,44 @@ const EditRewardInstance = ({ originalReward }: { originalReward: RewardAttribut
                     Number(originalReward.maxPaidClicksPerUser) *
                     Number(originalReward.numberOfUsersAbleToClaim);
 
-                if (amountToAsk > prevAmountToAsk) {
-                    await wallet.provider.sendTransaction(
-                        wallet.address,
-                        AccountTransactionType.Update,
-                        {
-                            amount: new CcdAmount(BigInt(1000000 * (amountToAsk - prevAmountToAsk))),
-                            address: {
-                                index: CONTRACT_INDEX,
-                                subindex: BigInt(0)
-                            },
-                            receiveName: `${CONTRACT_NAME}.load`,
-                            maxContractExecutionEnergy: 3000n
-                        },
-                        {},
-                        RAW_SCHEMA
-                    );
-                }
-                else {
-                    await wallet.provider
-                        .sendTransaction(
+                if (amountToAsk === prevAmountToAsk) {
+                    if (amountToAsk > prevAmountToAsk) {
+                        await wallet.provider.sendTransaction(
                             wallet.address,
                             AccountTransactionType.Update,
                             {
-                                amount: new CcdAmount(0n),
+                                amount: new CcdAmount(BigInt(1000000 * (amountToAsk - prevAmountToAsk))),
                                 address: {
                                     index: CONTRACT_INDEX,
                                     subindex: BigInt(0)
                                 },
-                                receiveName: `${CONTRACT_NAME}.claimreward`,
+                                receiveName: `${CONTRACT_NAME}.load`,
                                 maxContractExecutionEnergy: 3000n
                             },
-                            {
-                                amount_to_claim: BigInt(1000000 * (prevAmountToAsk - amountToAsk)).toString()
-                            },
+                            {},
                             RAW_SCHEMA
-                        )
+                        );
+                    }
+                    else {
+                        await wallet.provider
+                            .sendTransaction(
+                                wallet.address,
+                                AccountTransactionType.Update,
+                                {
+                                    amount: new CcdAmount(0n),
+                                    address: {
+                                        index: CONTRACT_INDEX,
+                                        subindex: BigInt(0)
+                                    },
+                                    receiveName: `${CONTRACT_NAME}.claimreward`,
+                                    maxContractExecutionEnergy: 3000n
+                                },
+                                {
+                                    amount_to_claim: BigInt(1000000 * (prevAmountToAsk - amountToAsk)).toString()
+                                },
+                                RAW_SCHEMA
+                            )
+                    }
                 }
                 await createRewardAttributes({
                     ...shareReward,
@@ -188,35 +190,9 @@ const EditRewardInstance = ({ originalReward }: { originalReward: RewardAttribut
                             setShareReward({ ...shareReward, rewardLink: e.target.value });
                         }
                         } placeholder="https://" fullWidth />
-                        <Typography variant="h5" my={2} textAlign="left">No. of influencers able to claim CCD</Typography>
-                        <TextField label="Max no. influencers" value={shareReward.numberOfUsersAbleToClaim} onChange={e => {
-                            const cleanNum = (e.target.value || '').replace(/[^0-9\.]+/g,
-                                ''
-                            );
-                            setShareReward({ ...shareReward, numberOfUsersAbleToClaim: cleanNum })
-                        }} fullWidth />
-
-                        <Typography variant="h5" my={2} textAlign="left">CCD paid for each click</Typography>
-                        <TextField label="CCD per click" placeholder="0.00 CCD" value={shareReward.amountPaidPerClick} onChange={e => {
-                            const cleanNum = (e.target.value || '').replace(/[^0-9\.]+/g,
-                                ''
-                            );
-                            setShareReward({ ...shareReward, amountPaidPerClick: cleanNum })
-                        }} fullWidth />
-                        <Typography variant="h5" my={2} textAlign="left">Max claimable link clicks per influencer</Typography>
-                        <TextField label="Max claimable links" value={shareReward.maxPaidClicksPerUser} onChange={e => {
-                            const cleanNum = (e.target.value || '').replace(/[^0-9\.]+/g,
-                                ''
-                            );
-                            setShareReward({ ...shareReward, maxPaidClicksPerUser: cleanNum })
-                        }} fullWidth />
-                        <Typography variant="h6" my={2} textAlign="left">
-                            Est. grand total: {
-                                (Number(shareReward.amountPaidPerClick) ?? 0) *
-                                (Number(shareReward.numberOfUsersAbleToClaim) ?? 0) *
-                                (Number(shareReward.maxPaidClicksPerUser) ?? 0)
-                            } CCD
-                        </Typography>
+                        <Alert severity="info" variant="outlined" sx={{ my: "2em" }}>
+                            The CCD Reward amount can't be changed
+                        </Alert>
                         <LoadingButton loading={loading} disabled={!validShareReward(shareReward)} onClick={() => updateReward()} variant="contained" color="warning" sx={{ marginY: 4 }}>
                             Update shareable reward
                         </LoadingButton>
