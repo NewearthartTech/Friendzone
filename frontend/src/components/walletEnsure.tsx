@@ -55,7 +55,10 @@ const WalletEnsure = ({
             <Modal open={true}>
                 <Box sx={style}>
                     <Typography variant="h6" sx={{ marginY: 2 }}>
-                        Connect Wallet to access page
+                        Connect Wallet
+                    </Typography>
+                    <Typography sx={{ marginBottom: 3, fontSize: 15 }}>
+                        Please connect wallet to verify your identity
                     </Typography>
                     {askedID ? <CircularProgress /> : <Wallet />}
                 </Box>

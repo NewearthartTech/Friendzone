@@ -155,11 +155,18 @@ const Upload = () => {
                         );
                         setShareReward({ ...shareReward, maxPaidClicksPerUser: cleanNum })
                     }} fullWidth />
+                    {
+                        (Number(shareReward.amountPaidPerClick) ?? 0) *
+                        (Number(shareReward.numberOfUsersAbleToClaim) ?? 0) *
+                        (Number(shareReward.maxPaidClicksPerUser) ?? 0) !== 0
+                        && (<Alert severity="warning" variant="outlined" sx={{ my: "2em" }}>
+                            Once the reward is generated, the CCD can't be updated
+                        </Alert>)}
                     <Typography variant="h6" my={2} textAlign="left">
                         Est. grand total: {
                             (Number(shareReward.amountPaidPerClick) ?? 0) *
                             (Number(shareReward.numberOfUsersAbleToClaim) ?? 0) *
-                            (Number(shareReward.maxPaidClicksPerUser) ?? 0)
+                            (Number(shareReward.maxPaidClicksPerUser) ?? 0) ?? 0
                         } CCD
                     </Typography>
                     <LoadingButton loading={loading} disabled={!validShareReward(shareReward)} onClick={() => generateLink()} variant="contained" color="warning" sx={{ marginY: 4 }}>
