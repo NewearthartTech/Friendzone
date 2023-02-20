@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAllRewardsAttributedByAddress, getReferalInfoByWalletAddress } from '../utils/backend';
 import { Referal, RewardAttribute } from '../utils/types';
-import { Accordion, AccordionDetails, AccordionSummary, Alert, AlertTitle, Backdrop, Box, Card, CardActions, CardContent, CircularProgress, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, AlertTitle, Backdrop, Box, Card, CardActions, CardContent, CircularProgress, IconButton, Stack, Typography } from '@mui/material';
 import { useAtom } from 'jotai';
 import { walletAtom } from '../store/walletStore';
-import { ExpandMore } from '@mui/icons-material';
+import { Edit, ExpandMore } from '@mui/icons-material';
 import CopyLink from '../utils/ui/copyLink';
+import EditRewardInstance from '../components/editRewardInstance';
 
 const Profile = () => {
     const { address } = useParams();
@@ -49,7 +50,7 @@ const Profile = () => {
             </Alert>
         )
     return (
-        <Box sx={{ maxWidth: "60rem", mx: "auto", my: "4em" }}>
+        <Box sx={{ maxWidth: "60rem", mx: { xs: 2, md: "auto" }, my: "4em" }}>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 Address
             </Typography>
@@ -69,14 +70,20 @@ const Profile = () => {
                         <Card key={i} sx={{ marginY: "2em" }} variant="outlined">
                             <CardContent>
                                 <Box>
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Reward Pool
-                                    </Typography>
-                                    <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
-                                        {(Number(reward.amountPaidPerClick) ?? 0) *
-                                            (Number(reward.numberOfUsersAbleToClaim) ?? 0) *
-                                            (Number(reward.maxPaidClicksPerUser) ?? 0)} CCD
-                                    </Typography>
+                                    <Stack direction="row" justifyContent="space-between">
+                                        <Box>
+                                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                                Reward Pool
+                                            </Typography>
+                                            <Typography sx={{ mb: 1.5 }} variant="h6" color="text.secondary">
+                                                {(Number(reward.amountPaidPerClick) ?? 0) *
+                                                    (Number(reward.numberOfUsersAbleToClaim) ?? 0) *
+                                                    (Number(reward.maxPaidClicksPerUser) ?? 0)} CCD
+                                            </Typography>
+                                        </Box>
+                                        {wallet.address === address && (<EditRewardInstance originalReward={reward} />)}
+                                    </Stack>
+
                                 </Box>
                                 <Box>
                                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -84,6 +91,7 @@ const Profile = () => {
                                     </Typography>
                                     <CopyLink link={`${import.meta.env.DEV ? "http://" : "https://"}${window.location.host}/claim/${reward.id}`} />
                                 </Box>
+
                             </CardContent>
                         </Card>
                     ))}

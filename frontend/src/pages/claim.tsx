@@ -131,13 +131,14 @@ const Claim = () => {
                                 textAlign: "center",
                                 mx: "0.5em",
                                 my: 1,
-                                padding: "0.5em"
+                                padding: "0.5em",
+                                wordBreak: "break-all"
                             }}>
                                 <Link href={shareReferral?.rewardAttribute?.rewardLink} target="_blank">{shareReferral?.rewardAttribute?.rewardLink}</Link>
                                 <IconButton onClick={() => {
                                     copyText(shareReferral?.rewardAttribute?.rewardLink ?? "")
                                     toast.success("Link copied successfully")
-                                }} aria-label="copy" sx={{ position: "absolute", top: "50%", transform: "translate(-50%,-50%)", right: -10 }}>
+                                }} aria-label="copy" sx={{ position: "absolute", top: "50%", transform: "translate(-50%,-50%)", right: -10, bgcolor: "#121212" }}>
                                     <ContentCopy />
                                 </IconButton>
                             </Box>
@@ -155,13 +156,14 @@ const Claim = () => {
                                 textAlign: "center",
                                 mx: "0.5em",
                                 my: 1,
-                                padding: "0.5em"
+                                padding: "0.5em",
+                                wordBreak: "break-all"
                             }}>
-                                <Link color="inherit" href={shareReferral?.referal?.personalLink} target="_blank">{shareReferral?.referal?.personalLink}</Link>
+                                <Link sx={{ maxWidth: { xs: "10rem" } }} color="inherit" href={shareReferral?.referal?.personalLink} target="_blank">{shareReferral?.referal?.personalLink}</Link>
                                 <IconButton onClick={() => {
                                     copyText(shareReferral?.referal?.personalLink ?? "")
                                     toast.success("Link copied successfully")
-                                }} aria-label="copy" sx={{ position: "absolute", top: "50%", transform: "translate(-50%,-50%)", right: -10 }}>
+                                }} aria-label="copy" sx={{ position: "absolute", top: "50%", transform: "translate(-50%,-50%)", right: -10, bgcolor: "#121212" }}>
                                     <ContentCopy />
                                 </IconButton>
                             </Box>
@@ -192,7 +194,7 @@ const Claim = () => {
                     CCD Reward already claimed
                 </Alert>)}
             </>
-        </WalletEnsure>
+        </WalletEnsure >
     )
 }
 

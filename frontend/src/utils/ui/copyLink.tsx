@@ -13,7 +13,8 @@ const CopyLink = ({ link }: { link: string }) => {
             textAlign: "center",
             mx: "0.5em",
             my: 1,
-            padding: "0.5em"
+            padding: "0.5em",
+            wordBreak: "break-all"
         }}>
             <Link onClick={(e) => {
                 e.stopPropagation()
@@ -23,7 +24,7 @@ const CopyLink = ({ link }: { link: string }) => {
                 e.stopPropagation()
                 copyText(link ?? "")
                 toast.success("Link copied successfully")
-            }} aria-label="copy" sx={{ position: "absolute", top: "50%", transform: "translate(-50%,-50%)", right: -10 }}>
+            }} aria-label="copy" sx={{ position: "absolute", top: "50%", transform: "translate(-50%,-50%)", right: -10, bgcolor: "#121212" }}>
                 <ContentCopy />
             </IconButton>
         </Box>
