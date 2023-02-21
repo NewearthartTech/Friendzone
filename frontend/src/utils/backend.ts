@@ -33,8 +33,12 @@ export async function getReferralInfo(
 	const r = await fetch(
 		`${import.meta.env.VITE_BACKEND_ENDPOINT}/rewards/ref/${personalLink}`
 	);
-	const body = await r.json();
-	return body;
+	if (r.status !== 500) {
+		const body = await r.json();
+		return body;
+	} else {
+		throw Error(await r.text());
+	}
 }
 
 export async function createRewardAttributes(
@@ -79,8 +83,12 @@ export async function createReferral(
 			body: JSON.stringify(referral),
 		}
 	);
-	const body = await r.json();
-	return body;
+	if (r.status !== 500) {
+		const body = await r.json();
+		return body;
+	} else {
+		throw Error(await r.text());
+	}
 }
 
 export async function getReferalInfoByWalletAddress(

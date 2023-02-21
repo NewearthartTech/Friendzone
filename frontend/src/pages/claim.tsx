@@ -17,7 +17,7 @@ const Claim = () => {
     const { id } = useParams();
     const [shareReferral, setShareReferral] = useState<ReferalResponse>();
     const [isLoading, setIsLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
+    const [error, setError] = useState<string>();
     const [claimAmount, setClaimAmount] = useState<number>();
     const [claimFail, setClaimFail] = useState<boolean>();
     const [claimLoading, setClaimLoading] = useState<boolean>();
@@ -32,8 +32,12 @@ const Claim = () => {
                 setShareReferral(refResponse);
                 setIsLoading(false);
             }
-            catch {
-                setHasError(true)
+            catch (e: any) {
+                console.log(e.toString())
+                if (e.toString().includes("Owner of reward can not create a personal link"))
+                    setError("Owners can't create personal links for their rewards");
+                else
+                    setError("Sadly, this link is unavailable")
             }
     }
     useEffect(() => {
@@ -79,12 +83,12 @@ const Claim = () => {
             setClaimLoading(false)
         }
     }
-    if (hasError)
+    if (error)
         return (
             <WalletEnsure>
                 <Alert severity="error" sx={{ my: 8 }}>
-                    <AlertTitle>Claim link unavalaible</AlertTitle>
-                    Sadly, this link is unavalaible
+                    <AlertTitle>Claim link unavailable</AlertTitle>
+                    {error}
                 </Alert>
             </WalletEnsure>)
     if (isLoading)
