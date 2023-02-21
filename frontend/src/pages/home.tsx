@@ -31,7 +31,7 @@ const Home = () => {
             </Stack>
             <Typography fontSize={14} mt={4} textAlign="center">
                 FrndZ is an app which gives you rewards for sharing links among friends.
-                <br />Whenever you share a link with a friend, they opens it and you get a reward in CCD
+                <br />Whenever you share a link with a friend, they open it and you get a reward in CCD
             </Typography>
             <Stack
                 mt={12}

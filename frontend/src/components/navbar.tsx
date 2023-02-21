@@ -4,14 +4,15 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Wallet from './wallet';
-import { Add } from '@mui/icons-material';
+import { Add, Logout } from '@mui/icons-material';
 import { Button, Link, useMediaQuery } from '@mui/material';
-import { useAtomValue } from 'jotai';
-import { walletPresentAtom } from '../store/walletStore';
+import { useAtom, useAtomValue } from 'jotai';
+import { walletAtom, walletPresentAtom } from '../store/walletStore';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const walletPresent = useAtomValue(walletPresentAtom);
+    const [wallet, setWallet] = useAtom(walletAtom);
     const matches = useMediaQuery('(min-width:600px)');
     const navigate = useNavigate();
     return (
@@ -23,10 +24,15 @@ const Navbar = () => {
                     </Link>
 
 
-                    {walletPresent && (<Button onClick={() => navigate("/upload")} sx={{ marginX: "1em" }} variant="outlined">
+                    {walletPresent && (<Button onClick={() => navigate("/upload")} sx={{ marginX: { xs: "0.5em", sm: "1em" } }} variant="outlined">
                         <Add /> {matches && <span>Create shareable link</span>}
                     </Button>)}
                     <Wallet />
+                    {walletPresent && (
+                        <Button onClick={() => setWallet({})} sx={{ marginX: { xs: "0.5em", sm: "1em" } }} variant="outlined" color="error">
+                            <Logout />
+                        </Button>
+                    )}
                 </Toolbar>
             </AppBar>
         </Box>
