@@ -70,7 +70,7 @@ spec:
 
         containers:
         -   name: frndz-server
-            image: divinejicks/frndz:1.0.5
+            image: divinejicks/frndz:1.0.6
 
             env:
             -   name: mongo__connectionString
@@ -99,7 +99,7 @@ spec:
     spec:
         containers:
         -   name: frndz-frontend
-            image: divinejicks/frndz-frontend:1.0.5
+            image: divinejicks/frndz-frontend:1.0.7
 
             env:
                 -   name: VITE_BACKEND_ENDPOINT
