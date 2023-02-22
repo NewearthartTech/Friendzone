@@ -2,7 +2,7 @@
 The friend zone app
 
 ## THIS SECTION IS FOR RUNNING THE DEPLOYED APP
-# Concordium mainet address
+# Concordium mainet address ```2xBLr1bosK5NEQJTW9q1GHsmmuDgLrjAAzC8CSUBJc55AwVsw5```
 
 # How to run frndz dapp 
 Click on the link https://friendzone.staging.newearthart.tech/ to access FriendZone dapp
