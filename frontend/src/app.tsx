@@ -2,6 +2,7 @@ import Navbar from "./components/navbar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Toaster } from "react-hot-toast";
+import "./styles.css"
 import {
     createBrowserRouter,
     createRoutesFromElements,
