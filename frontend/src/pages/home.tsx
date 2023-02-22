@@ -123,6 +123,7 @@ const Home = () => {
                     </Box>
                     <Box id="reward">
                         <Typography variant="h5" my={4} color="secondary">Claim</Typography>
+                        <YoutubeEmbed embedId="6pjI5r9B7p4" />
                         <ul>
                             <li>
                                 Open the link (<Link href="https://friendzone.staging.newearthart.tech/ref/63f601f0395920be3b1f4ba0">Example</Link>) shared by the friend/influencer.
