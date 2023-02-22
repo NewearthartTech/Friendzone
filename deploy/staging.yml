@@ -99,7 +99,7 @@ spec:
     spec:
         containers:
         -   name: frndz-frontend
-            image: divinejicks/frndz-frontend:1.0.7
+            image: divinejicks/frndz-frontend:1.0.8
 
             env:
                 -   name: VITE_BACKEND_ENDPOINT
