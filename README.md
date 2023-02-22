@@ -1,6 +1,8 @@
 # Friendzone
 The friend zone app
 
+### [Walkthrough video](https://www.youtube.com/watch?v=kxu40n7mt6M)
+
 ## THIS SECTION IS FOR RUNNING THE DEPLOYED APP
 # Concordium mainet address ```2xBLr1bosK5NEQJTW9q1GHsmmuDgLrjAAzC8CSUBJc55AwVsw5```
 
