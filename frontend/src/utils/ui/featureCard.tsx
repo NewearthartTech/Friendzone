@@ -8,7 +8,7 @@ const FeatureCard = ({ title, description, onClick }: { title: string, descripti
             <Typography>
                 {title}
             </Typography>
-            <Typography sx={{ maxWidth: "14rem" }}>
+            <Typography sx={{ maxWidth: "14rem", mx: "auto" }}>
                 {description}
             </Typography>
             <ArrowDownward color="primary" sx={{ mt: 4 }} />
